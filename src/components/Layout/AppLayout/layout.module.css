@@ -1,0 +1,33 @@
+.appLayout {
+    background-color: var(--background-color);
+}
+
+.appSider {
+    box-shadow: 0 1px 1px -1px rgb(0 0 0 / 10%),
+    0 4px 5px 0 rgb(0 0 0 / 10%),
+    0 1px 10px 0 rgb(0 0 0 / 6%);
+    height: 100vh;
+}
+
+.appHeaderMain {
+    display: flex;
+    height: var(--min-height-topbar);
+}
+
+.appHeaderSide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.appFooter {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.appFooter a {
+    display: flex;
+}
+

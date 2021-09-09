@@ -1,0 +1,31 @@
+:root {
+  --background-color: #f4f5fa;
+  --boder-color: #e2e5ee;
+  --white-color: #fff;
+  --blue-color: #1890ff;
+  --blue-dark-color: #001737;
+  --text-color: #535763;
+  --font-family: "Mada", "IBM Plex Sans", sans-serif;
+  --ink-color: #de3c82;
+  --ink-color-blue: #2f3891;
+  --ink-color-dark-blue: #252e84;
+
+  --min-height-topbar: 56px
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  font-family: var(--font-family);
+  background: var(--background-color);
+  color: var(--text-color);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "checkJs": true,
+    "sourceMap": false,
+    "jsx": "preserve",
+    "allowJs": true,
+    "paths": {
+      "@components/*": ["components/*"],
+      "@modules/*": ["modules/*"],
+      "@constants/*": ["constants/*"],
+      "@libs/*": ["libs/*"],
+      "@context/*": ["context/*"],
+      "@utils/*": ["utils/*"],
+      "@styles/*": ["styles/*"]
+    },
+    "noEmit": true,
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "include": [
+    "/src/pages/**/*",
+    "/src/components/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

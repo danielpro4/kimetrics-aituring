@@ -1,0 +1,15 @@
+.App {
+    padding: 24px;
+}
+
+.appHeader {
+    margin-bottom: 16px;
+    padding: 0;
+    align-items: center;
+    display: flex;
+    height: auto;
+    line-height: normal;
+    justify-content: space-between;
+
+    background: transparent;
+}

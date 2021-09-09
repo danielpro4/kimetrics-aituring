@@ -1,0 +1,40 @@
+.ant-table-wrapper .ant-table-small .ant-table-thead > tr > th {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    text-transform: uppercase;
+    color: var(--text-color);
+}
+
+.ant-card {
+    padding: 6px;
+    color: var(--text-color);
+    box-shadow: 0 1px 3px 0 rgb(54 80 138 / 30%);
+    margin: 16px 24px;
+    border-radius: 2px;
+    min-height: 320px;
+}
+
+.ant-drawer-header,
+.ant-drawer-header-no-title {
+    background: var(--blue-color);
+    border-radius: 0;
+    color: white;
+}
+
+.ant-drawer-header .ant-btn-link {
+    color: white;
+}
+
+.ant-drawer-title {
+    color: var(--white-color);
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.ant-drawer-close {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.ant-drawer-close:hover {
+    color: var(--white-color);
+}
