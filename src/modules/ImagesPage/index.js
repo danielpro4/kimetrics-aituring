@@ -6,7 +6,8 @@ import { BreadCrumbItem } from '@components/Common'
 import ImagesList from './components/ImagesList'
 // import { useQuery } from 'react-query'
 import { API_URL_AIT, JWT_DEMO } from '@constants/Settings'
-import IframeWrapper from '../../components/Common/IframeWrapper'
+import IframeWrapper from '@components/Common/IframeWrapper'
+import ProductSearch from '@components/Common/ProductSearch'
 
 const { Content, Header } = Layout
 
@@ -27,13 +28,13 @@ const ImagesPage = ({ data }) => {
     if (error) return 'An error has occurred: ' + error.message
     console.log('error::', error)*/
 
-    const handleShowDetail = (record) => {
-        console.log(record.host)
+    const handleShowDetail = ({ host, url }) => {
         Modal.info({
             title: null,
-            content: <IframeWrapper url={record.host} />,
+            icon: null,
+            content: <IframeWrapper url={host} />,
             centered: true,
-            width: '98vw',
+            width: '90vw',
         })
     }
 
@@ -46,14 +47,15 @@ const ImagesPage = ({ data }) => {
                         {
                             id: 1,
                             href: '/',
-                            label: 'Imágenes',
+                            label: 'dashboard',
                         },
                     ]}
                 />
+                <ProductSearch />
             </Header>
             <Content>
                 <ImagesList
-                    data={data.results}
+                    data={data?.results}
                     loading={false}
                     events={{
                         onShowDetail: handleShowDetail,

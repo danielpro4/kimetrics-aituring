@@ -1,10 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Loader, Card, NoDataView } from '@components/Common'
+import { Card, Loader, NoDataView } from '@components/Common'
 import isEqual from 'lodash/isEqual'
 import { Table } from 'antd'
 import Image from 'next/image'
 import dayjs from 'dayjs'
+import styles from './styles.module.css'
+import { FcCheckmark } from 'react-icons/fc'
+import { ImCross } from 'react-icons/im'
 
 const getColumns = ({ onShowDetail }) => {
     return [
@@ -21,6 +24,7 @@ const getColumns = ({ onShowDetail }) => {
                         width={100}
                         height={100}
                         objectFit="contain"
+                        className={styles.image}
                     />
                 )
             },
@@ -58,13 +62,19 @@ const getColumns = ({ onShowDetail }) => {
             title: 'Procesado',
             dataIndex: 'valid',
             width: 80,
+            align: 'center',
             render: (_, record) => {
-                return record.processed === true ? 'Sí' : 'No'
+                return record.processed === true ? (
+                    <FcCheckmark style={{ fontSize: 19 }} />
+                ) : (
+                    <ImCross style={{ color: 'red' }} />
+                )
             },
         },
         {
             title: 'Correcto',
             dataIndex: 'valid',
+            align: 'center',
             width: 80,
             render: (_, record) => {
                 return record.valid === true ? 'Sí' : 'No'
