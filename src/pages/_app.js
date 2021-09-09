@@ -1,10 +1,12 @@
 import Head from 'next/head'
 import AppLayout from '@components/Layout/AppLayout'
-import '../styles/globals.css'
 
 import 'antd/dist/antd.compact.css'
 import '@styles/antd.css'
 import '@styles/globals.css'
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+const queryClient = new QueryClient()
 
 function NextApp({ Component, pageProps }) {
     return (
@@ -16,9 +18,11 @@ function NextApp({ Component, pageProps }) {
                 <meta name="description" content="Kimetrics Integration with AITuring" />
             </Head>
             <main className="App">
-                <AppLayout>
-                    <Component {...pageProps} />
-                </AppLayout>
+                <QueryClientProvider client={queryClient}>
+                    <AppLayout>
+                        <Component {...pageProps} />
+                    </AppLayout>
+                </QueryClientProvider>
             </main>
         </>
     )
