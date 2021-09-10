@@ -7,7 +7,7 @@ import Image from 'next/image'
 import dayjs from 'dayjs'
 import styles from './styles.module.css'
 import { FcCheckmark } from 'react-icons/fc'
-import { ImCross } from 'react-icons/im'
+import { MdClose as GiCrossed } from 'react-icons/md'
 
 const getColumns = ({ onShowDetail }) => {
     return [
@@ -47,6 +47,7 @@ const getColumns = ({ onShowDetail }) => {
         {
             title: 'Tarea',
             dataIndex: 'task_name',
+            responsive: ['md'],
             render: (_, record) => {
                 return record.task_name
             },
@@ -54,6 +55,7 @@ const getColumns = ({ onShowDetail }) => {
         {
             title: 'Usuario',
             dataIndex: 'user_name',
+            responsive: ['md'],
             render: (_, record) => {
                 return record.user_name
             },
@@ -67,7 +69,7 @@ const getColumns = ({ onShowDetail }) => {
                 return record.processed === true ? (
                     <FcCheckmark style={{ fontSize: 19 }} />
                 ) : (
-                    <ImCross style={{ color: 'red' }} />
+                    <GiCrossed className={styles.unprocessed} />
                 )
             },
         },

@@ -35,7 +35,7 @@ const AppMenuItem = ({ session, current, ...delegated }) => {
         >
             <Menu.Item key="root" icon={<DashboardOutlined />}>
                 <Link href={`/`} prefetch={false} passHref>
-                    <a>Images</a>
+                    <a>Imágenes</a>
                 </Link>
             </Menu.Item>
         </Menu>

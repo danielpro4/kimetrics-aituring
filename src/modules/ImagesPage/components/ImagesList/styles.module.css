@@ -1,3 +1,7 @@
 .image {
     cursor: pointer;
 }
+.unprocessed {
+    font-size: 18px;
+    fill: red;
+}

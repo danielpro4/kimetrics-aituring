@@ -4,6 +4,7 @@ import AppLayout from '@components/Layout/AppLayout'
 import 'antd/dist/antd.compact.css'
 import '@styles/antd.css'
 import '@styles/globals.css'
+
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 const queryClient = new QueryClient()

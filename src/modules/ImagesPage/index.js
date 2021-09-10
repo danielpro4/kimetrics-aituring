@@ -1,40 +1,44 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './styles/styles.module.css'
 import { Layout, Modal } from 'antd'
-import { BreadCrumbItem } from '@components/Common'
+import { useQuery } from 'react-query'
+import axios from 'axios'
+import { API_URL_AIT, MODAL_OPTIONS } from '@constants/Settings'
 import ImagesList from './components/ImagesList'
-// import { useQuery } from 'react-query'
-import { API_URL_AIT, JWT_DEMO } from '@constants/Settings'
-import IframeWrapper from '@components/Common/IframeWrapper'
-import ProductSearch from '@components/Common/ProductSearch'
+import { BreadCrumbItem, IframeWrapper, Loader, ProductSearch } from '@components/Common'
+import styles from './styles/styles.module.css'
 
 const { Content, Header } = Layout
 
-const fetchImages = () => {
-    return fetch(`${API_URL_AIT}/image`, {
+const fetchImages = (accessToken) => {
+    let reqOptions = {
+        url: `${API_URL_AIT}/image/`,
         method: 'GET',
         headers: {
-            Authorization: `jwt ${JWT_DEMO}`,
+            Authorization: `jwt ${accessToken}`,
         },
-    }).then((res) => res.json())
+    }
+
+    return axios.request(reqOptions).then((response) => response.data)
 }
 
-const ImagesPage = ({ data }) => {
-    /*const { isLoading, error, data } = useQuery('getImages', fetchImages, {
-        retry: 1,
+const ImagesPage = ({ session }) => {
+    const { accessToken } = session
+    const { isLoading, error, data } = useQuery('fetchImages', () => fetchImages(accessToken), {
+        retry: 0,
     })
-    if (isLoading) return 'Loading...'
-    if (error) return 'An error has occurred: ' + error.message
-    console.log('error::', error)*/
 
-    const handleShowDetail = ({ host, url }) => {
+    if (isLoading) return <Loader>Loading...</Loader>
+
+    if (error) return 'An error has occurred: ' + error.message
+
+    console.log('images::', data?.count)
+
+    const handleShowDetail = ({ host }) => {
+        const fullUrl = `${host}?jwt=${accessToken}&canal=8`
         Modal.info({
-            title: null,
-            icon: null,
-            content: <IframeWrapper url={host} />,
-            centered: true,
-            width: '90vw',
+            ...MODAL_OPTIONS,
+            content: <IframeWrapper url={fullUrl} />,
         })
     }
 
@@ -47,7 +51,7 @@ const ImagesPage = ({ data }) => {
                         {
                             id: 1,
                             href: '/',
-                            label: 'dashboard',
+                            label: '',
                         },
                     ]}
                 />

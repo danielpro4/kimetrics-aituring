@@ -7,13 +7,13 @@ import Image from 'next/image'
 
 const URL_LOGO = '/kimetrics.png'
 
-const AppLogoItem = () => {
+const AppLogoItem = ({ collapsed }) => {
     return (
         <Space className={styles.appLogo}>
             <div className="app-logo--name">
                 <Image src={URL_LOGO} alt="kimetrics" height={38} objectFit="contain" width={90} />
             </div>
-            <div className={styles.appVersion}>v{APP_VERSION}</div>
+            {!collapsed && <div className={styles.appVersion}>v{APP_VERSION}</div>}
         </Space>
     )
 }

@@ -6,7 +6,7 @@
   --blue-dark-color: #001737;
   --text-color: #535763;
   --font-family: "Mada", "IBM Plex Sans", sans-serif;
-  --ink-color: #de3c82;
+  --ink-color: #1890ff;
   --ink-color-blue: #2f3891;
   --ink-color-dark-blue: #252e84;
 
@@ -20,9 +20,9 @@
 
 html,
 body {
-  font-family: var(--font-family);
   background: var(--background-color);
   color: var(--text-color);
+  font-family: var(--font-family);
 }
 
 a {

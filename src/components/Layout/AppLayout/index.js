@@ -10,13 +10,15 @@ const { Content, Sider } = Layout
 
 const AppLayout = ({ session, children }) => {
     const router = useRouter()
-    console.log(router.route)
+    const withSidebar = !!router.query['with-sider']
     return (
         <Layout className={styles.appLayout}>
-            <Sider className={styles.appSider} theme="light" width={220}>
-                <AppLogoItem />
-                <AppMenuItem current={router.route} session={session} theme="light" />
-            </Sider>
+            {withSidebar && (
+                <Sider className={styles.appSider} theme="light" width={220} collapsed={true}>
+                    <AppLogoItem collapsed={true} />
+                    <AppMenuItem current={router.route} session={session} theme="light" />
+                </Sider>
+            )}
 
             <Content className="site-layout">
                 <div>{children}</div>
