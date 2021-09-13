@@ -1,45 +1,50 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Layout, Modal } from 'antd'
+import { Layout, Modal, notification } from 'antd'
 import { useQuery } from 'react-query'
-import axios from 'axios'
-import { API_URL_AIT, MODAL_OPTIONS } from '@constants/Settings'
+import { MODAL_OPTIONS } from '@constants/Settings'
 import ImagesList from './components/ImagesList'
 import { BreadCrumbItem, IframeWrapper, Loader, ProductSearch } from '@components/Common'
+import { useAuthContext } from '@context/AuthContext'
+import useHttp from '@hooks/useHttp'
 import styles from './styles/styles.module.css'
 
 const { Content, Header } = Layout
 
-const fetchImages = (accessToken) => {
-    let reqOptions = {
-        url: `${API_URL_AIT}/image/`,
-        method: 'GET',
-        headers: {
-            Authorization: `jwt ${accessToken}`,
-        },
-    }
-
-    return axios.request(reqOptions).then((response) => response.data)
+const showIframe = (fullUrl) => {
+    return Modal.info({
+        ...MODAL_OPTIONS,
+        content: <IframeWrapper url={fullUrl} />,
+    })
 }
 
-const ImagesPage = ({ session }) => {
-    const { accessToken } = session
-    const { isLoading, error, data } = useQuery('fetchImages', () => fetchImages(accessToken), {
+const ImagesPage = () => {
+    const { accessToken } = useAuthContext()
+    const http = useHttp()
+
+    const { isLoading, error, data } = useQuery('fetchImages', () => http.get('/image'), {
         retry: 0,
     })
 
-    if (isLoading) return <Loader>Loading...</Loader>
+    const handleShowDetail = async ({ host, task_id }) => {
+        try {
+            const task = await http.get(`/task/${task_id}/`)
+            const fullUrl = `${host}?jwt=${accessToken}&canal=${task?.canalID}`
 
-    if (error) return 'An error has occurred: ' + error.message
+            showIframe(fullUrl)
+        } catch (error) {
+            notification.error({
+                description: error?.message,
+            })
+        }
+    }
 
-    console.log('images::', data?.count)
+    if (isLoading) {
+        return <Loader>Cargando...</Loader>
+    }
 
-    const handleShowDetail = ({ host }) => {
-        const fullUrl = `${host}?jwt=${accessToken}&canal=8`
-        Modal.info({
-            ...MODAL_OPTIONS,
-            content: <IframeWrapper url={fullUrl} />,
-        })
+    if (error) {
+        return <div>Se ha producido un error:{error.message}</div>
     }
 
     return (

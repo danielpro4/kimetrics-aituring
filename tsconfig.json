@@ -6,9 +6,11 @@
     "jsx": "preserve",
     "allowJs": true,
     "paths": {
+      "@api": ["api/index.js"],
       "@components/*": ["components/*"],
       "@modules/*": ["modules/*"],
       "@constants/*": ["constants/*"],
+      "@hooks/*": ["hooks/*"],
       "@libs/*": ["libs/*"],
       "@context/*": ["context/*"],
       "@utils/*": ["utils/*"],
