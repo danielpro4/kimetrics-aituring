@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Loader, NoDataView } from '@components/Common'
 import isEqual from 'lodash/isEqual'
-import { Table } from 'antd'
 import Image from 'next/image'
-import { dateInHumanFormat } from '@utils/functions'
-import styles from './styles.module.css'
+import { Table } from 'antd'
 import { FcCheckmark } from 'react-icons/fc'
 import { MdClose as GiCrossed } from 'react-icons/md'
+import { Card, Loader, NoDataView } from '@components/Common'
+import { dateInHumanFormat } from '@utils/functions'
+import styles from './styles.module.css'
 
 const getColumns = ({ onShowDetail }) => {
     return [
@@ -15,50 +15,42 @@ const getColumns = ({ onShowDetail }) => {
             title: 'Imagen',
             dataIndex: 'url',
             width: 80,
-            render: (_, record) => {
-                return (
-                    <Image
-                        onClick={() => onShowDetail(record)}
-                        alt={_}
-                        src={record.url}
-                        width={100}
-                        height={100}
-                        objectFit="contain"
-                        className={styles.image}
-                    />
-                )
-            },
+            render: (_, record) => (
+                <Image
+                    onClick={() => onShowDetail(record)}
+                    alt={record.task}
+                    src={record.url}
+                    width={100}
+                    height={100}
+                    objectFit="contain"
+                    className={styles.image}
+                />
+            ),
         },
         {
             title: 'Cliente',
             dataIndex: 'place_name',
-            render: (_, record) => {
-                return record.place_name
-            },
+            responsive: ['md'],
+            render: (_, record) => record.place_name,
         },
         {
             title: 'Fecha',
             dataIndex: 'date',
             width: 80,
-            render: (_, record) => {
-                return dateInHumanFormat(record.date, 'MMM DD, YYYY')
-            },
+            responsive: ['md'],
+            render: (_, record) => dateInHumanFormat(record.date, 'MMM DD, YYYY'),
         },
         {
             title: 'Tarea',
             dataIndex: 'task_name',
             responsive: ['md'],
-            render: (_, record) => {
-                return record.task_name
-            },
+            render: (_, record) => record.task_name,
         },
         {
             title: 'Usuario',
             dataIndex: 'user_name',
             responsive: ['md'],
-            render: (_, record) => {
-                return record.user_name
-            },
+            render: (_, record) => record.user_name,
         },
         {
             title: 'Procesado',

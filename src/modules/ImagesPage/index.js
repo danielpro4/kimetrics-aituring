@@ -11,7 +11,7 @@ import styles from './styles/styles.module.css'
 
 const { Content, Header } = Layout
 
-const showIframe = (fullUrl) => {
+const showImageDetail = (fullUrl) => {
     return Modal.info({
         ...MODAL_OPTIONS,
         content: <IframeWrapper url={fullUrl} />,
@@ -31,7 +31,7 @@ const ImagesPage = () => {
             const task = await http.get(`/task/${task_id}/`)
             const fullUrl = `${host}?jwt=${accessToken}&canal=${task?.canalID}`
 
-            showIframe(fullUrl)
+            showImageDetail(fullUrl)
         } catch (error) {
             notification.error({
                 description: error?.message,
@@ -44,7 +44,7 @@ const ImagesPage = () => {
     }
 
     if (error) {
-        return <div>Se ha producido un error:{error.message}</div>
+        return <div>Se ha producido un error: {error.message}</div>
     }
 
     return (
