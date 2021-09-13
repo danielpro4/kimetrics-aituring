@@ -4,7 +4,7 @@ import { Card, Loader, NoDataView } from '@components/Common'
 import isEqual from 'lodash/isEqual'
 import { Table } from 'antd'
 import Image from 'next/image'
-import dayjs from 'dayjs'
+import { dateInHumanFormat } from '@utils/functions'
 import styles from './styles.module.css'
 import { FcCheckmark } from 'react-icons/fc'
 import { MdClose as GiCrossed } from 'react-icons/md'
@@ -41,7 +41,7 @@ const getColumns = ({ onShowDetail }) => {
             dataIndex: 'date',
             width: 80,
             render: (_, record) => {
-                return dayjs(record.date).format('MMM DD, YYYY')
+                return dateInHumanFormat(record.date, 'MMM DD, YYYY')
             },
         },
         {
