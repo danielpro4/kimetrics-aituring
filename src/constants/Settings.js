@@ -5,7 +5,7 @@ export const MODAL_OPTIONS = {
     icon: null,
     closable: true,
     centered: true,
-    width: '90vw',
+    width: 'calc(100vw - 40px)',
     okText: 'Cerrar',
     okType: 'link',
 }

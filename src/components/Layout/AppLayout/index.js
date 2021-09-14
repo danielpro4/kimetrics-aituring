@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Layout } from 'antd'
 import { useRouter } from 'next/router'
-import styles from './layout.module.css'
 import AppLogoItem from '../AppLogoItem'
 import AppMenuItem from '../AppMenuItem'
+import styles from './layout.module.css'
 
 const { Content, Sider } = Layout
 
@@ -20,9 +20,7 @@ const AppLayout = ({ session, children }) => {
                 </Sider>
             )}
 
-            <Content className="site-layout">
-                <div>{children}</div>
-            </Content>
+            <Content className="site-layout">{children}</Content>
         </Layout>
     )
 }

@@ -14,6 +14,7 @@ const getColumns = ({ onShowDetail }) => {
         {
             title: 'Imagen',
             dataIndex: 'url',
+            align: 'center',
             width: 80,
             render: (_, record) => (
                 <Image
@@ -28,17 +29,17 @@ const getColumns = ({ onShowDetail }) => {
             ),
         },
         {
+            title: 'Fecha',
+            dataIndex: 'date',
+            width: 100,
+            responsive: ['sm'],
+            render: (_, record) => dateInHumanFormat(record.date, 'MMM DD, YYYY'),
+        },
+        {
             title: 'Cliente',
             dataIndex: 'place_name',
             responsive: ['md'],
             render: (_, record) => record.place_name,
-        },
-        {
-            title: 'Fecha',
-            dataIndex: 'date',
-            width: 80,
-            responsive: ['md'],
-            render: (_, record) => dateInHumanFormat(record.date, 'MMM DD, YYYY'),
         },
         {
             title: 'Tarea',
@@ -50,6 +51,7 @@ const getColumns = ({ onShowDetail }) => {
             title: 'Usuario',
             dataIndex: 'user_name',
             responsive: ['md'],
+            width: 200,
             render: (_, record) => record.user_name,
         },
         {
@@ -101,7 +103,7 @@ function ImagesList({ loading = false, data = [], pagination, events }) {
             <Table
                 size="small"
                 onChange={handleTableChange}
-                scroll={{ y: `calc(100vh - 300px)` }}
+                scroll={{ y: `calc(100vh - 220px)` }}
                 loading={loading}
                 rowKey={(record) => `record_id:${record.id}`}
                 columns={getColumns({
@@ -110,7 +112,7 @@ function ImagesList({ loading = false, data = [], pagination, events }) {
                 dataSource={data}
                 pagination={{
                     ...pagination,
-                    showTotal: (total, [start, end]) => `Total: ${total} ${start}-${end}`,
+                    showTotal: (total, [start, end]) => `${start}-${end} de ${total} registros`,
                     total: data.length,
                     showTitle: true,
                 }}

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { API_URL_AIT } from '@constants/Settings'
-import { useAuthContext } from '../context/AuthContext'
+import { useAuthContext } from '@context/AuthContext'
 
 const useHttp = () => {
     const { accessToken } = useAuthContext()
@@ -35,7 +35,7 @@ const useHttp = () => {
         }
     )
 
-    return http
+    return { http, token: accessToken }
 }
 
 export default useHttp

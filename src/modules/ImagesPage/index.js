@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Layout, Modal, notification } from 'antd'
-import { useQuery } from 'react-query'
 import { MODAL_OPTIONS } from '@constants/Settings'
 import ImagesList from './components/ImagesList'
 import { BreadCrumbItem, IframeWrapper, Loader, ProductSearch } from '@components/Common'
-import { useAuthContext } from '@context/AuthContext'
-import useHttp from '@hooks/useHttp'
+import { useImages } from './hooks/useImages'
+import { useIframeURL } from './hooks/useIframeURL'
 import styles from './styles/styles.module.css'
 
 const { Content, Header } = Layout
@@ -19,19 +18,13 @@ const showImageDetail = (fullUrl) => {
 }
 
 const ImagesPage = () => {
-    const { accessToken } = useAuthContext()
-    const http = useHttp()
-
-    const { isLoading, error, data } = useQuery('fetchImages', () => http.get('/image'), {
-        retry: 0,
-    })
+    const useIURL = useIframeURL()
+    const { error, isLoading, data } = useImages()
 
     const handleShowDetail = async ({ host, task_id }) => {
         try {
-            const task = await http.get(`/task/${task_id}/`)
-            const fullUrl = `${host}?jwt=${accessToken}&canal=${task?.canalID}`
-
-            showImageDetail(fullUrl)
+            const fullURL = await useIURL.get(host, task_id)
+            showImageDetail(fullURL)
         } catch (error) {
             notification.error({
                 description: error?.message,
