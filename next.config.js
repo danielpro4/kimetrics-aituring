@@ -3,4 +3,7 @@ module.exports = {
     images: {
         domains: ['storage.googleapis.com'],
     },
+    webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+        return config
+    },
 }

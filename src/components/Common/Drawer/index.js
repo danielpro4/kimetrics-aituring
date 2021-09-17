@@ -2,7 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Drawer as DrawerBase, Row, Space } from 'antd'
 
-const Drawer = ({ children, title, open, onClose, onSuccess, width = 500, textSuccess = 'Aceptar', ...props }) => {
+const Drawer = ({
+    children,
+    title = '',
+    visible = false,
+    onClose = () => {},
+    onSuccess = () => {},
+    width = 500,
+    textSuccess = 'Aceptar',
+    ...props
+}) => {
     return (
         <DrawerBase
             title={title}
@@ -12,7 +21,7 @@ const Drawer = ({ children, title, open, onClose, onSuccess, width = 500, textSu
             closable={true}
             keyboard={false}
             width={width}
-            visible={open}
+            visible={visible}
             onClose={onClose}
             footer={
                 <Row justify="end">
@@ -33,9 +42,7 @@ const Drawer = ({ children, title, open, onClose, onSuccess, width = 500, textSu
 
 Drawer.propTypes = {
     children: PropTypes.element.isRequired,
-    onClose: PropTypes.func.isRequired,
     onSuccess: PropTypes.func,
-    open: PropTypes.bool,
     title: PropTypes.string,
     textSuccess: PropTypes.string,
 }

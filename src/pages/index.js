@@ -1,5 +1,6 @@
 import ImagesPage from '@modules/ImagesPage'
-import { AuthProvider } from '../context/AuthContext'
+import { AuthProvider } from '@context/AuthContext'
+import { ImageProvider } from '@modules/ImagesPage/context/ImageContext'
 
 export async function getServerSideProps(props) {
     return {
@@ -19,7 +20,9 @@ function Home({ session }) {
     return (
         <div id="ImagePage">
             <AuthProvider session={session}>
-                <ImagesPage />
+                <ImageProvider>
+                    <ImagesPage />
+                </ImageProvider>
             </AuthProvider>
         </div>
     )

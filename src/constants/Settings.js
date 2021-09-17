@@ -1,4 +1,5 @@
 export const API_URL_AIT = process.env.NEXT_PUBLIC_API_URL_AIT
+export const API_URL = process.env.NEXT_PUBLIC_API_URL
 
 export const MODAL_OPTIONS = {
     title: null,
