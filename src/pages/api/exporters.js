@@ -1,13 +1,23 @@
+import Cors from 'cors'
 import * as XLSX from 'xlsx'
 import got from 'got'
 import dayjs from 'dayjs'
 import { API_URL_AIT } from '@constants/Settings'
+import initMiddleware from '@libs/init-middleware'
 
 export const config = {
     api: {
         bodyParser: false,
     },
 }
+
+const cors = initMiddleware(
+    // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
+    Cors({
+        // Only allow requests with GET, POST and OPTIONS
+        methods: ['GET', 'POST', 'OPTIONS'],
+    })
+)
 
 const fetchData = async (token) => {
     let data = []
@@ -60,22 +70,32 @@ const getFileName = () => `images_${dayjs().format('DD-MM-YYYY HH:mm')}.xlsx`
 
 const exporters = async (request, response) => {
     const { jwt } = request.query
-    if (request.method === 'POST' && jwt) {
-        const data = await fetchData(jwt)
 
-        const fileName = getFileName()
-        const wbbuf = createBook(data, fileName)
+    try {
+        await cors(request, response)
 
-        response.status(200).send({
-            file: fileName,
-            wbbuf: wbbuf,
+        if (request.method === 'POST' && jwt) {
+            const data = await fetchData(jwt)
+
+            const fileName = getFileName()
+            const wbbuf = createBook(data, fileName)
+
+            response.status(200).send({
+                file: fileName,
+                wbbuf: wbbuf,
+            })
+        }
+
+        response.status(200).json({
+            data: [],
+            message: 'no-allowed',
+        })
+    } catch (e) {
+        response.status(500).json({
+            data: [],
+            error: 'Something went wrong',
         })
     }
-
-    response.status(200).json({
-        data: null,
-        message: 'no-allowed',
-    })
 }
 
 export default exporters

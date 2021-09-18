@@ -53,6 +53,9 @@ const ImagesPage = () => {
             .then(({ wbbuf, file }) => {
                 saveAs(new Blob([s2ab(wbbuf)], { type: 'application/octet-stream' }), file)
             })
+            .catch((error) => {
+                console.log('Fetch:', error)
+            })
     }
 
     const handleFilter = (event) => {
