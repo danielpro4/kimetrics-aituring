@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import AppLayout from '@components/Layout/AppLayout'
+import dayjs from 'dayjs'
 
 import 'antd/dist/antd.compact.css'
 import '@styles/antd.css'
@@ -8,6 +9,13 @@ import '@styles/globals.css'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 const queryClient = new QueryClient()
+
+require('dayjs/locale/es')
+
+let isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
+
+dayjs.extend(isSameOrAfter)
+dayjs.locale('es')
 
 function NextApp({ Component, pageProps }) {
     return (

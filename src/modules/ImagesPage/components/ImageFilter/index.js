@@ -1,83 +1,69 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Drawer } from '@components/Common'
-import { Button, DatePicker, Form, Switch, Typography } from 'antd'
-import dayjs from 'dayjs'
+import { Button, Form, Switch } from 'antd'
 
 const { Item: FormItem } = Form
-const { Title } = Typography
+
+const SwitchFilter = ({ label, name }) => {
+    return (
+        <FormItem label={label} name={name} valuePropName="checked">
+            <Switch checkedChildren="Sí" unCheckedChildren="No" defaultChecked={false} />
+        </FormItem>
+    )
+}
+
+const ButtonFilter = ({ children, ...props }) => {
+    return (
+        <Button
+            style={{ width: '200px', margin: '5px auto', display: 'block' }}
+            type="primary"
+            shape="round"
+            {...props}
+        >
+            {children}
+        </Button>
+    )
+}
 
 const ImageFilter = ({ onFilter, ...props }) => {
     const [loading, setLoading] = useState(false)
     const [form] = Form.useForm()
 
-    const handleClick = async () => {
-        let { executed, date, ...rest } = await form.validateFields()
+    useEffect(() => {
+        setLoading(false)
+    }, [])
 
-        executed = executed?.format('YYYY-MM-DD')
-        date = date?.format('YYYY-MM-DD')
+    const handleClick = async () => {
+        let values = await form.validateFields()
 
         setLoading(true)
-
         setTimeout(() => {
-            onFilter({
-                executed,
-                date,
-                ...rest,
-            })
+            setLoading(false)
+            onFilter(values)
         }, 1000)
     }
 
     return (
-        <Drawer title="Filtrar imágenes" footer={null} {...props}>
+        <Drawer title="Filtrar imágenes" width={420} footer={null} {...props}>
             <div style={{ padding: '10px 24px' }}>
-                <div style={{ marginBottom: 50 }}>
-                    <Title level={5}>Período</Title>
-                    <Form
-                        form={form}
-                        layout={'vertical'}
-                        initialValues={{
-                            executed: dayjs(),
-                            date: dayjs(),
-                        }}
-                    >
-                        <FormItem label="Fecha de ejecución" name="executed">
-                            <DatePicker format="YYYY-MM-DD" mode="date" style={{ width: 200 }} />
-                        </FormItem>
-                        <FormItem label="Fecha de registro" name="date">
-                            <DatePicker format="YYYY-MM-DD" mode="date" style={{ width: 200 }} />
-                        </FormItem>
-                    </Form>
-                    <Title level={5}>Opciones de imágen</Title>
-                    <Form
-                        form={form}
-                        layout={'vertical'}
-                        initialValues={{
-                            valid: true,
-                            processed: true,
-                            evaluated: true,
-                        }}
-                    >
-                        <FormItem label="Bien ejecutada" name="valid" valuePropName="checked">
-                            <Switch checkedChildren="Sí" unCheckedChildren="No" defaultChecked={false} />
-                        </FormItem>
-                        <FormItem label="Imágenes procesadas" name="processed" valuePropName="checked">
-                            <Switch checkedChildren="Sí" unCheckedChildren="No" defaultChecked={false} />
-                        </FormItem>
-                        <FormItem label="Imágenes evaluadas" name="evaluated" valuePropName="checked">
-                            <Switch checkedChildren="Sí" unCheckedChildren="No" defaultChecked={false} />
-                        </FormItem>
-                    </Form>
-                </div>
-                <Button
-                    style={{ width: '220px', margin: '5px auto', display: 'block' }}
-                    onClick={handleClick}
-                    type="primary"
-                    shape="round"
-                    loading={loading}
+                <Form
+                    style={{ marginBottom: 60 }}
+                    form={form}
+                    layout={'vertical'}
+                    initialValues={{
+                        status: true,
+                        processed: false,
+                        valid: false,
+                    }}
                 >
+                    <SwitchFilter label="Bien ejecutada" name="status" />
+                    <SwitchFilter label="Imágenes procesadas" name="processed" />
+                    <SwitchFilter label="Imágenes evaluadas" name="valid" />
+                </Form>
+                <ButtonFilter loading={loading} onClick={handleClick}>
                     Aplicar filtros
-                </Button>
+                </ButtonFilter>
             </div>
         </Drawer>
     )
