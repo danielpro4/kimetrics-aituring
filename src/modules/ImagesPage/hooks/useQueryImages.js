@@ -13,7 +13,6 @@ import useHttp from '@hooks/useHttp'
     processed=false
     valid=false
 */
-
 export const useQueryImages = (queryKey, filters = {}) => {
     const { http } = useHttp()
     const queryClient = useQueryClient()
@@ -37,8 +36,8 @@ export const useQueryImages = (queryKey, filters = {}) => {
         error,
         data,
         refetch,
-        onRefetch: async (filters) => {
-            await queryClient.fetchQuery(queryKey, () => fetchImages(filters))
+        onRefetch: (filters) => {
+            queryClient.fetchQuery(queryKey, () => fetchImages(filters))
         },
     }
 }
