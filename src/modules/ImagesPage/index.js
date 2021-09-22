@@ -51,9 +51,17 @@ const ImagesPage = () => {
         fetch(`${API_URL}/exporters?jwt=${token}`, {
             method: 'POST',
         })
-            .then((response) => response.json())
+            .then((response) => {
+                console.log(response)
+                if (response.status === 200) {
+                    return response.json()
+                }
+                throw new Error('No se pudo procesar la solicitud.')
+            })
             .then(({ wbbuf, file }) => {
-                saveAs(new Blob([s2ab(wbbuf)], { type: 'application/octet-stream' }), file)
+                if (wbbuf) {
+                    saveAs(new Blob([s2ab(wbbuf)], { type: 'application/octet-stream' }), file)
+                }
             })
             .catch((error) => {
                 console.log('Fetch:', error)

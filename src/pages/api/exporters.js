@@ -72,9 +72,9 @@ const exporters = async (request, response) => {
     const { jwt } = request.query
 
     try {
-        await cors(request, response)
-
         if (request.method === 'POST') {
+            await cors(request, response)
+
             const data = await fetchData(jwt)
 
             const fileName = getFileName()
@@ -94,7 +94,7 @@ const exporters = async (request, response) => {
         console.log(error)
         response.status(500).json({
             data: [],
-            error: 'Something went wrong',
+            error: error,
         })
     }
 }

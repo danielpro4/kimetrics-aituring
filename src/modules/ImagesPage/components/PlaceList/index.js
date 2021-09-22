@@ -21,6 +21,11 @@ const PlaceList = ({ onClick }) => {
                     )
                 })}
             </Menu>
+            <style jsx global>{`
+                .ant-menu {
+                    border-right-color: transparent;
+                }
+            `}</style>
         </div>
     )
 }
