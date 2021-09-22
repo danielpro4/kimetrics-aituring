@@ -75,14 +75,13 @@ const exporters = async (request, response) => {
         if (request.method === 'POST') {
             await cors(request, response)
 
-            const data = await fetchData(jwt)
-
+            //const data = await fetchData(jwt)
             const fileName = getFileName()
-            const wbbuf = createBook(data, fileName)
+            //const wbbuf = createBook(data, fileName)
 
             response.status(200).send({
                 file: fileName,
-                wbbuf: wbbuf,
+                wbbuf: jwt,
             })
         }
 
