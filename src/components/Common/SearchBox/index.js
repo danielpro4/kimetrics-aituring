@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { SearchOutlined } from '@ant-design/icons'
 import { Input } from 'antd'
 
-const ProductSearch = ({ ...delegated }) => {
+const SearchBox = ({ width, ...delegated }) => {
     return (
         <>
             <Input
@@ -11,21 +11,22 @@ const ProductSearch = ({ ...delegated }) => {
                 allowClear={true}
                 placeholder={'Buscar...'}
                 prefix={<SearchOutlined />}
+                style={{ width: width }}
                 {...delegated}
             />
             <style jsx global>{`
                 .search-box {
                     border-radius: 16px;
                     padding-left: 8px;
-                    width: 240px;
+                    margin: 16px 16px;
                 }
             `}</style>
         </>
     )
 }
 
-ProductSearch.propTypes = {
+SearchBox.propTypes = {
     delegated: PropTypes.any,
 }
 
-export default ProductSearch
+export default SearchBox

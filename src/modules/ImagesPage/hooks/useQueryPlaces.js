@@ -1,19 +1,7 @@
 import { useQuery, useQueryClient } from 'react-query'
 import useHttp from '@hooks/useHttp'
 
-/**
- Filtros disponibles
-    id=12
-    place_id=1
-    task_id=20
-    user_id=4
-    date_ini=2021-09-15
-    date_end=2021-09-15
-    status=false
-    processed=false
-    valid=false
-*/
-export const useQueryImages = (queryKey, filters = {}) => {
+export const useQueryPlaces = (queryKey, filters = {}) => {
     const { http } = useHttp()
     const queryClient = useQueryClient()
 
@@ -23,8 +11,8 @@ export const useQueryImages = (queryKey, filters = {}) => {
             .map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
             .join('&')
 
-        console.log('query::', query)
-        return http.get('/image?' + query)
+        //console.log('query::', query)
+        return http.get('/place?' + query)
     }
 
     const { isLoading, error, data, refetch } = useQuery(queryKey, () => fetchData(filters), {

@@ -10,7 +10,7 @@ import moment from 'moment'
 import { s2ab } from '@utils/functions'
 import { useAuthContext } from '@context/AuthContext'
 import { API_URL, MODAL_OPTIONS } from '@constants/Settings'
-import { BreadCrumbItem, IframeWrapper, Loader, ProductSearch } from '@components/Common'
+import { BreadCrumbItem, IframeWrapper, Loader, SearchBox } from '@components/Common'
 
 // Local components
 import ImagesList from './components/ImagesList'
@@ -19,6 +19,7 @@ import { useQueryImages } from './hooks/useQueryImages'
 import { useIframeURL } from './hooks/useIframeURL'
 import { useImageContext } from './context/ImageContext'
 import styles from './styles/styles.module.css'
+import PlaceList from './components/PlaceList'
 
 const { Content, Header } = Layout
 
@@ -59,7 +60,7 @@ const ImagesPage = () => {
             })
     }
 
-    const handleFilter = async (values) => {
+    const handleImageFilter = async (values) => {
         uiContext.setFilterVisible(false)
 
         const _filters = {
@@ -69,6 +70,17 @@ const ImagesPage = () => {
 
         uiContext.setFilters(_filters)
 
+        await onRefetch(_filters)
+    }
+
+    const handlePlaceClick = async (placeId) => {
+        const _filters = {
+            ...uiContext.filters,
+            place_id: placeId,
+        }
+
+        uiContext.setFilters(_filters)
+        console.log('placeId', placeId)
         await onRefetch(_filters)
     }
 
@@ -107,45 +119,56 @@ const ImagesPage = () => {
 
     return (
         <Layout className={styles.App}>
-            <Header className={styles.appHeader}>
-                <div className="main">
-                    <BreadCrumbItem
-                        title={'Imágenes'}
-                        items={[
-                            {
-                                id: 1,
-                                href: '/',
-                                label: '',
-                            },
-                        ]}
-                    />
-                </div>
-                <Space className="sider">
-                    <Button type="secondary" shape="round" onClick={handleExport}>
-                        Exportar
-                    </Button>
-                    <ProductSearch />
-                    <DatePicker.RangePicker
-                        showToday
-                        onChange={handleDateChange}
-                        defaultValue={[moment(uiContext.filters.date_ini), moment(uiContext.filters.date_end)]}
-                    />
-                    <Button type="link" icon={<FilterOutlined />} onClick={() => uiContext.setFilterVisible(true)} />
-                </Space>
-            </Header>
             <Content>
-                <ImagesList
-                    data={data?.results}
-                    loading={false}
-                    events={{
-                        onShowDetail: handleShowDetail,
-                    }}
-                />
-                <ImageFilter
-                    onFilter={handleFilter}
-                    visible={uiContext.filterVisible}
-                    onClose={() => uiContext.setFilterVisible(false)}
-                />
+                <Header className={styles.appHeader}>
+                    <div className="main">
+                        <BreadCrumbItem
+                            title={'Imágenes'}
+                            items={[
+                                {
+                                    id: 1,
+                                    href: '/',
+                                    label: '',
+                                },
+                            ]}
+                        />
+                    </div>
+                    <Space className="sider">
+                        <Button type="secondary" shape="round" onClick={handleExport}>
+                            Exportar
+                        </Button>
+                        <DatePicker.RangePicker
+                            showToday
+                            onChange={handleDateChange}
+                            defaultValue={[moment(uiContext.filters.date_ini), moment(uiContext.filters.date_end)]}
+                        />
+                        <Button
+                            type="link"
+                            icon={<FilterOutlined />}
+                            onClick={() => uiContext.setFilterVisible(true)}
+                        />
+                    </Space>
+                </Header>
+                <Layout>
+                    <Layout.Sider theme="light" width={220}>
+                        <SearchBox width={190} />
+                        <PlaceList onClick={handlePlaceClick} />
+                    </Layout.Sider>
+                    <Content className={styles.listContent}>
+                        <ImagesList
+                            data={data?.results}
+                            loading={false}
+                            events={{
+                                onShowDetail: handleShowDetail,
+                            }}
+                        />
+                        <ImageFilter
+                            onFilter={handleImageFilter}
+                            visible={uiContext.filterVisible}
+                            onClose={() => uiContext.setFilterVisible(false)}
+                        />
+                    </Content>
+                </Layout>
             </Content>
         </Layout>
     )
