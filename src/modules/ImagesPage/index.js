@@ -48,20 +48,17 @@ const ImagesPage = () => {
     }
 
     const handleExport = () => {
-        fetch(`${API_URL}/exporters?jwt=${token}`, {
-            method: 'POST',
-        })
+        fetch(`${API_URL}/exporters?jwt=${token}`)
             .then((response) => {
                 if (response.status === 200) {
                     return response.json()
                 }
                 throw new Error('No se pudo procesar la solicitud.')
             })
-            .then(({ wbbuf, file, data }) => {
-                if (wbbuf) {
+            .then(({ fileName, data }) => {
+                /*if (wbbuf) {
                     saveAs(new Blob([s2ab(wbbuf)], { type: 'application/octet-stream' }), file)
-                }
-
+                }*/
                 console.log('data::', data)
             })
             .catch((error) => {

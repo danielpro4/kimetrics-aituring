@@ -65,18 +65,10 @@ const exporters = async (request, response) => {
         const fileName = getFileName()
         const data = await fetchData(jwt)
 
-        if (request.method === 'POST') {
-            // const wbbuf = createBook(data, fileName)
-            response.status(200).send({
-                file: fileName,
-                wbbuf: jwt,
-                data: data,
-            })
-        }
-
-        response.status(200).json({
-            data: data,
-            message: 'All items',
+        // const wbbuf = createBook(data, fileName)  wbbuf: jwt,
+        response.status(200).send({
+            fileName,
+            data,
         })
     } catch (error) {
         response.status(500).json({
