@@ -59,7 +59,7 @@ const ImagesPage = () => {
                 if (wbbuf) {
                     saveAs(new Blob([s2ab(wbbuf)], { type: 'application/octet-stream' }), file)
                 }
-                console.log('data::', data)
+                console.log('data::', wbbuf)
             })
             .catch((error) => {
                 console.log('Fetch:', error)
