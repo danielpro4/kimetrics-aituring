@@ -57,7 +57,7 @@ const ImagesPage = () => {
             })
             .then(({ fileName, data: wbbuf }) => {
                 if (wbbuf) {
-                    saveAs(new Blob([s2ab(wbbuf)], { type: 'application/octet-stream' }), file)
+                    saveAs(new Blob([s2ab(wbbuf)], { type: 'application/octet-stream' }), fileName)
                 }
                 console.log('data::', wbbuf)
             })
