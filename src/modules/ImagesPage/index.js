@@ -53,12 +53,12 @@ const ImagesPage = () => {
                 if (response.status === 200) {
                     return response.json()
                 }
-                throw new Error('No se pudo procesar la solicitud.')
+                throw new Error('No se pudo procesar la solicitud.' + response.status)
             })
-            .then(({ fileName, data }) => {
-                /*if (wbbuf) {
+            .then(({ fileName, data: wbbuf }) => {
+                if (wbbuf) {
                     saveAs(new Blob([s2ab(wbbuf)], { type: 'application/octet-stream' }), file)
-                }*/
+                }
                 console.log('data::', data)
             })
             .catch((error) => {

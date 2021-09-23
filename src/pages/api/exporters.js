@@ -64,11 +64,11 @@ const exporters = async (request, response) => {
     try {
         const fileName = getFileName()
         const data = await fetchData(jwt)
+        const wbbuf = createBook(data, fileName)
 
-        // const wbbuf = createBook(data, fileName)  wbbuf: jwt,
         response.status(200).send({
             fileName,
-            data,
+            data: wbbuf,
         })
     } catch (error) {
         response.status(500).json({
