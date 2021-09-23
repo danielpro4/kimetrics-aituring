@@ -1,6 +1,6 @@
 // API Components
 import PropTypes from 'prop-types'
-import { Button, Layout, Modal, notification, Space, DatePicker } from 'antd'
+import { Button, DatePicker, Layout, Modal, notification, Space } from 'antd'
 import { FilterOutlined } from '@ant-design/icons'
 import { saveAs } from 'file-saver'
 import dayjs from 'dayjs'
@@ -52,16 +52,17 @@ const ImagesPage = () => {
             method: 'POST',
         })
             .then((response) => {
-                console.log(response)
                 if (response.status === 200) {
                     return response.json()
                 }
                 throw new Error('No se pudo procesar la solicitud.')
             })
-            .then(({ wbbuf, file }) => {
+            .then(({ wbbuf, file, data }) => {
                 if (wbbuf) {
                     saveAs(new Blob([s2ab(wbbuf)], { type: 'application/octet-stream' }), file)
                 }
+
+                console.log('data::', data)
             })
             .catch((error) => {
                 console.log('Fetch:', error)
