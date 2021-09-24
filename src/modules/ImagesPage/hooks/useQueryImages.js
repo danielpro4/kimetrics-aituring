@@ -24,7 +24,7 @@ export const useQueryImages = (queryKey, filters = {}) => {
             .join('&')
 
         console.log('query::', query)
-        return http.get('/image?' + query)
+        return http.get('/image?page_size=10&' + query)
     }
 
     const { isLoading, error, data, refetch } = useQuery(queryKey, () => fetchData(filters), {
