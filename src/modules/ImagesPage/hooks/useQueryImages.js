@@ -1,8 +1,8 @@
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery } from 'react-query'
 import useHttp from '@hooks/useHttp'
 
 /**
- Filtros disponibles
+   API Filtros disponibles
     id=12
     place_id=1
     task_id=20
@@ -15,7 +15,6 @@ import useHttp from '@hooks/useHttp'
 */
 export const useQueryImages = (queryKey, filters = {}) => {
     const { http } = useHttp()
-    const queryClient = useQueryClient()
 
     const fetchData = (params = {}) => {
         const query = Object.keys(params)
@@ -26,7 +25,7 @@ export const useQueryImages = (queryKey, filters = {}) => {
         return http.get('/image?page_size=10&' + query)
     }
 
-    const { isLoading, error, data, refetch } = useQuery(queryKey, () => fetchData(filters), {
+    const { isLoading, error, data } = useQuery([queryKey, filters], () => fetchData(filters), {
         retry: 0,
     })
 
@@ -34,10 +33,5 @@ export const useQueryImages = (queryKey, filters = {}) => {
         isLoading,
         error,
         data,
-        refetch,
-        onRefetch: (filters) => {
-            console.log('filters::', filters)
-            queryClient.fetchQuery(queryKey, () => fetchData(filters))
-        },
     }
 }

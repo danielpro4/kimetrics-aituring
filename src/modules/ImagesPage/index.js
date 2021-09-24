@@ -35,7 +35,7 @@ const ImagesPage = () => {
     const uiContext = useImageContext()
     const useIURL = useIframeURL()
 
-    const { error, isLoading, data: images, onRefetch } = useQueryImages('images', uiContext.filters)
+    const { error, isLoading, data: images } = useQueryImages('images', uiContext.filters)
 
     const handleShowDetail = async ({ host, task_id }) => {
         try {
@@ -74,7 +74,6 @@ const ImagesPage = () => {
 
         uiContext.setFilterVisible(false)
         uiContext.setFilters(_filters)
-        await onRefetch(_filters)
     }
 
     const handlePlaceClick = async (placeId) => {
@@ -84,7 +83,6 @@ const ImagesPage = () => {
         }
 
         uiContext.setFilters(_filters)
-        await onRefetch(_filters)
     }
 
     const handleDateChange = async (date, [start, end]) => {
@@ -108,16 +106,11 @@ const ImagesPage = () => {
         }
 
         uiContext.setFilters(_filters)
-        await onRefetch(_filters)
     }
 
     const handleSearchChange = (event) => {
         const searchVal = String(event.target.value).trim()
         uiContext.setSearchPlace(searchVal)
-    }
-
-    if (isLoading) {
-        return <Loader>Cargando...</Loader>
     }
 
     if (error) {
@@ -156,21 +149,25 @@ const ImagesPage = () => {
                         />
                     </Space>
                 </Header>
-                <Layout>
-                    <Sider collapsed={false} theme="light" width={220} className={styles.siderFilters}>
+                <Layout className={styles.appContent}>
+                    <Sider collapsed={false} theme="light" width={220} className={styles.filterSider}>
                         <SearchBox width={180} onChange={handleSearchChange} />
                         <PlaceList search={uiContext.searchPlace} onClick={handlePlaceClick} />
                     </Sider>
-                    <Content className={styles.listContent}>
-                        <ImagesList
-                            data={images?.results}
-                            loading={false}
-                            filters={uiContext.filters}
-                            actions={{
-                                onShowDetail: handleShowDetail,
-                                setPagination: () => {},
-                            }}
-                        />
+                    <Content className={styles.imagesContent}>
+                        {isLoading ? (
+                            <Loader />
+                        ) : (
+                            <ImagesList
+                                data={images?.results}
+                                loading={false}
+                                filters={uiContext.filters}
+                                actions={{
+                                    onShowDetail: handleShowDetail,
+                                    setPagination: () => {},
+                                }}
+                            />
+                        )}
                         <ImageFilter
                             onFilter={handleImageFilter}
                             visible={uiContext.filterVisible}

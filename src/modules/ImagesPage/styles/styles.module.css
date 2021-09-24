@@ -14,11 +14,16 @@
     background: transparent;
 }
 
-.listContent {
-    margin-left: 16px;
+.appContent {
+    height: calc(100vh - 105px);
 }
 
-.siderFilters {
+.imagesContent {
+    margin-left: 16px;
+    position: relative;
+}
+
+.filterSider {
     background-color: white;
     box-shadow: 0 1px 3px 0 rgb(54 80 138 / 30%);
     border-radius: 4px;
