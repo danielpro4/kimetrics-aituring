@@ -23,7 +23,6 @@ export const useQueryImages = (queryKey, filters = {}) => {
             .map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
             .join('&')
 
-        console.log('query::', query)
         return http.get('/image?page_size=10&' + query)
     }
 
@@ -37,6 +36,7 @@ export const useQueryImages = (queryKey, filters = {}) => {
         data,
         refetch,
         onRefetch: (filters) => {
+            console.log('filters::', filters)
             queryClient.fetchQuery(queryKey, () => fetchData(filters))
         },
     }
