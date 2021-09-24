@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Menu, Tooltip } from 'antd'
-import { FolderOutlined } from '@ant-design/icons'
 import { useQueryPlaces } from '../../hooks/useQueryPlaces'
 import styles from './styles.module.css'
+import { MdStore } from 'react-icons/md'
 
 const PlaceList = ({ search, onClick }) => {
     const { data: places } = useQueryPlaces('places')
@@ -17,7 +17,7 @@ const PlaceList = ({ search, onClick }) => {
                     .filter((place) => place.codigo_cliente && place.name.toLowerCase().includes(search.toLowerCase()))
                     .map((place) => {
                         return (
-                            <Menu.Item icon={<FolderOutlined />} key={place.id}>
+                            <Menu.Item icon={<MdStore size={18} />} key={place.id}>
                                 <Tooltip title={place.codigo_cliente} placement="top">
                                     {place.name}
                                 </Tooltip>
