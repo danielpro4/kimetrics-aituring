@@ -18,7 +18,7 @@ const SearchBox = ({ width, ...delegated }) => {
                 .search-box {
                     border-radius: 16px;
                     padding-left: 8px;
-                    margin: 16px 16px;
+                    margin: 16px;
                 }
             `}</style>
         </>

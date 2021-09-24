@@ -79,7 +79,7 @@ const getColumns = ({ onShowDetail }) => {
     ]
 }
 
-function ImagesList({ loading = false, data = [], pagination, events }) {
+function ImagesList({ loading = false, data = [], pagination, filters, actions }) {
     // handlers
     const handleTableChange = (_pagination, _filters) => {
         const pager = { ..._pagination }
@@ -89,7 +89,7 @@ function ImagesList({ loading = false, data = [], pagination, events }) {
             pager.current = _pagination.current
         }
 
-        events?.setPagination({
+        actions?.setPagination({
             ...pager,
         })
     }
@@ -107,7 +107,7 @@ function ImagesList({ loading = false, data = [], pagination, events }) {
                 loading={loading}
                 rowKey={(record) => `record_id:${record.id}`}
                 columns={getColumns({
-                    onShowDetail: events?.onShowDetail,
+                    onShowDetail: actions?.onShowDetail,
                 })}
                 dataSource={data}
                 pagination={{

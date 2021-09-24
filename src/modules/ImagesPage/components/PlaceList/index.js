@@ -5,20 +5,22 @@ import { FolderOutlined } from '@ant-design/icons'
 import { useQueryPlaces } from '../../hooks/useQueryPlaces'
 import styles from './styles.module.css'
 
-const PlaceList = ({ onClick }) => {
-    const { data } = useQueryPlaces('places')
+const PlaceList = ({ search, onClick }) => {
+    const { data: places } = useQueryPlaces('places')
 
     const handleClick = (event) => onClick(event.key)
 
     return (
         <div className={styles.placeList}>
             <Menu mode="inline" theme="light" onClick={handleClick} inlineIndent={0}>
-                {data?.results
-                    .filter((item) => item.codigo_cliente)
-                    .map((item) => {
+                {places?.results
+                    .filter((place) => place.codigo_cliente && place.name.toLowerCase().includes(search.toLowerCase()))
+                    .map((place) => {
                         return (
-                            <Menu.Item icon={<FolderOutlined />} key={item.id}>
-                                <Tooltip title={item.codigo_cliente}>{item.name}</Tooltip>
+                            <Menu.Item icon={<FolderOutlined />} key={place.id}>
+                                <Tooltip title={place.codigo_cliente} placement="top">
+                                    {place.name}
+                                </Tooltip>
                             </Menu.Item>
                         )
                     })}

@@ -16,6 +16,9 @@ export const ImageProvider = ({ children }) => {
         date_end: DEFAULT_FILTERS.end,
         place_id: null,
     })
+
+    const [searchPlace, setSearchPlace] = useState('')
+
     return (
         <ImageContext.Provider
             value={{
@@ -23,6 +26,8 @@ export const ImageProvider = ({ children }) => {
                 setFilterVisible,
                 filters,
                 setFilters,
+                searchPlace,
+                setSearchPlace,
             }}
         >
             {children}

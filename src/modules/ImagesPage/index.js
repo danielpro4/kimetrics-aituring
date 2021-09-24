@@ -18,10 +18,10 @@ import ImageFilter from './components/ImageFilter'
 import { useQueryImages } from './hooks/useQueryImages'
 import { useIframeURL } from './hooks/useIframeURL'
 import { useImageContext } from './context/ImageContext'
-import styles from './styles/styles.module.css'
 import PlaceList from './components/PlaceList'
+import styles from './styles/styles.module.css'
 
-const { Content, Header } = Layout
+const { Content, Header, Sider } = Layout
 
 const showImageDetail = (fullUrl) => {
     return Modal.info({
@@ -34,7 +34,8 @@ const ImagesPage = () => {
     const { accessToken: token } = useAuthContext()
     const uiContext = useImageContext()
     const useIURL = useIframeURL()
-    const { error, isLoading, data, onRefetch } = useQueryImages('images', uiContext.filters)
+
+    const { error, isLoading, data: images, onRefetch } = useQueryImages('images', uiContext.filters)
 
     const handleShowDetail = async ({ host, task_id }) => {
         try {
@@ -66,15 +67,13 @@ const ImagesPage = () => {
     }
 
     const handleImageFilter = async (values) => {
-        uiContext.setFilterVisible(false)
-
         const _filters = {
             ...uiContext.filters,
             ...values,
         }
 
+        uiContext.setFilterVisible(false)
         uiContext.setFilters(_filters)
-
         await onRefetch(_filters)
     }
 
@@ -85,7 +84,6 @@ const ImagesPage = () => {
         }
 
         uiContext.setFilters(_filters)
-        console.log('placeId', placeId)
         await onRefetch(_filters)
     }
 
@@ -110,8 +108,12 @@ const ImagesPage = () => {
         }
 
         uiContext.setFilters(_filters)
-
         await onRefetch(_filters)
+    }
+
+    const handleSearchChange = (event) => {
+        const searchVal = String(event.target.value).trim()
+        uiContext.setSearchPlace(searchVal)
     }
 
     if (isLoading) {
@@ -155,16 +157,18 @@ const ImagesPage = () => {
                     </Space>
                 </Header>
                 <Layout>
-                    <Layout.Sider theme="light" width={220}>
-                        <SearchBox width={190} />
-                        <PlaceList onClick={handlePlaceClick} />
-                    </Layout.Sider>
+                    <Sider collapsed={false} theme="light" width={220} className={styles.siderFilters}>
+                        <SearchBox width={180} onChange={handleSearchChange} />
+                        <PlaceList search={uiContext.searchPlace} onClick={handlePlaceClick} />
+                    </Sider>
                     <Content className={styles.listContent}>
                         <ImagesList
-                            data={data?.results}
+                            data={images?.results}
                             loading={false}
-                            events={{
+                            filters={uiContext.filters}
+                            actions={{
                                 onShowDetail: handleShowDetail,
+                                setPagination: () => {},
                             }}
                         />
                         <ImageFilter

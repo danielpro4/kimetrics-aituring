@@ -1,3 +1,7 @@
 .placeList {
     padding: 10px 16px;
 }
+
+.placeList li {
+    padding-right: 0 !important;
+}

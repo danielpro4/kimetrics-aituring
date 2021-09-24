@@ -17,3 +17,9 @@
 .listContent {
     margin-left: 16px;
 }
+
+.siderFilters {
+    background-color: white;
+    box-shadow: 0 1px 3px 0 rgb(54 80 138 / 30%);
+    border-radius: 4px;
+}
