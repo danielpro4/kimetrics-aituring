@@ -12,7 +12,7 @@ const PlaceList = ({ search, onClick }) => {
 
     return (
         <div className={styles.placeList}>
-            <Menu mode="inline" theme="light" onClick={handleClick} inlineIndent={0}>
+            <Menu mode="inline" theme="light" onClick={handleClick} inlineIndent={6}>
                 {places?.results
                     .filter((place) => place.codigo_cliente && place.name.toLowerCase().includes(search.toLowerCase()))
                     .map((place) => {
