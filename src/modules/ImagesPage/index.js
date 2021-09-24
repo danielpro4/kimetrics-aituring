@@ -5,7 +5,7 @@ import { FilterOutlined } from '@ant-design/icons'
 import { saveAs } from 'file-saver'
 import dayjs from 'dayjs'
 import moment from 'moment'
-
+import { Transition, animated, config } from 'react-spring'
 // Global components
 import { s2ab } from '@utils/functions'
 import { useAuthContext } from '@context/AuthContext'
@@ -21,6 +21,7 @@ import { useImageContext } from './context/ImageContext'
 import PlaceList from './components/PlaceList'
 import styles from './styles/styles.module.css'
 
+const { RangePicker } = DatePicker
 const { Content, Header, Sider } = Layout
 
 const showImageDetail = (fullUrl) => {
@@ -137,7 +138,7 @@ const ImagesPage = () => {
                         <Button type="secondary" shape="round" onClick={handleExport}>
                             Exportar
                         </Button>
-                        <DatePicker.RangePicker
+                        <RangePicker
                             showToday
                             onChange={handleDateChange}
                             defaultValue={[moment(uiContext.filters.date_ini), moment(uiContext.filters.date_end)]}
@@ -158,15 +159,31 @@ const ImagesPage = () => {
                         {isLoading ? (
                             <Loader label="Cargando..." />
                         ) : (
-                            <ImagesList
-                                data={images?.results}
-                                loading={false}
-                                filters={uiContext.filters}
-                                actions={{
-                                    onShowDetail: handleShowDetail,
-                                    setPagination: () => {},
-                                }}
-                            />
+                            <Transition
+                                items={!isLoading}
+                                from={{ opacity: 0 }}
+                                enter={{ opacity: 1 }}
+                                leave={{ opacity: 0 }}
+                                delay={100}
+                                config={config.molasses}
+                                onRest={() => {}}
+                            >
+                                {(styles, item) =>
+                                    item && (
+                                        <animated.div style={styles}>
+                                            <ImagesList
+                                                data={images?.results}
+                                                loading={false}
+                                                filters={uiContext.filters}
+                                                actions={{
+                                                    onShowDetail: handleShowDetail,
+                                                    setPagination: () => {},
+                                                }}
+                                            />
+                                        </animated.div>
+                                    )
+                                }
+                            </Transition>
                         )}
                         <ImageFilter
                             onFilter={handleImageFilter}
