@@ -156,7 +156,7 @@ const ImagesPage = () => {
                     </Sider>
                     <Content className={styles.imagesContent}>
                         {isLoading ? (
-                            <Loader />
+                            <Loader label="Cargando..." />
                         ) : (
                             <ImagesList
                                 data={images?.results}

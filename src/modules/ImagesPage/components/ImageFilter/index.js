@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Drawer } from '@components/Common'
-import { Button, Form, Switch } from 'antd'
+import { Button, Form, Row, Space, Switch } from 'antd'
 
 const { Item: FormItem } = Form
 
@@ -16,7 +15,7 @@ const SwitchFilter = ({ label, name }) => {
 const ButtonFilter = ({ children, ...props }) => {
     return (
         <Button
-            style={{ width: '200px', margin: '5px auto', display: 'block' }}
+            style={{ width: '140px', margin: '5px auto', display: 'block' }}
             type="primary"
             shape="round"
             {...props}
@@ -27,32 +26,47 @@ const ButtonFilter = ({ children, ...props }) => {
 }
 
 const ImageFilter = ({ onFilter, ...props }) => {
-    const [loading, setLoading] = useState(false)
     const [form] = Form.useForm()
-
-    useEffect(() => {
-        setLoading(false)
-    }, [])
 
     const handleClick = async () => {
         let values = await form.validateFields()
 
-        setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-            onFilter(values)
-        }, 1000)
+        onFilter(values)
+    }
+
+    const handleReset = async () => {
+        let values = {
+            status: false,
+            processed: false,
+            valid: false,
+        }
+
+        onFilter(values)
     }
 
     return (
-        <Drawer title="Filtrar imágenes" width={420} footer={null} {...props}>
+        <Drawer
+            title="Filtrar imágenes"
+            width={420}
+            footer={
+                <Row justify="end">
+                    <Space>
+                        <Button onClick={handleReset} type={'link'}>
+                            Reset filtros
+                        </Button>
+                        <ButtonFilter onClick={handleClick}>Aplicar filtros</ButtonFilter>
+                    </Space>
+                </Row>
+            }
+            {...props}
+        >
             <div style={{ padding: '10px 24px' }}>
                 <Form
                     style={{ marginBottom: 60 }}
                     form={form}
                     layout={'vertical'}
                     initialValues={{
-                        status: true,
+                        status: false,
                         processed: false,
                         valid: false,
                     }}
@@ -61,9 +75,6 @@ const ImageFilter = ({ onFilter, ...props }) => {
                     <SwitchFilter label="Imágenes procesadas" name="processed" />
                     <SwitchFilter label="Imágenes evaluadas" name="valid" />
                 </Form>
-                <ButtonFilter loading={loading} onClick={handleClick}>
-                    Aplicar filtros
-                </ButtonFilter>
             </div>
         </Drawer>
     )

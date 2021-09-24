@@ -8,11 +8,18 @@ import { MdStore } from 'react-icons/md'
 const PlaceList = ({ search, onClick }) => {
     const { data: places } = useQueryPlaces('places')
 
-    const handleClick = (event) => onClick(event.key)
+    const handleClick = (event) => {
+        onClick(event.key === 'all' ? null : event.key)
+    }
 
     return (
         <div className={styles.placeList}>
-            <Menu mode="inline" theme="light" onClick={handleClick} inlineIndent={6}>
+            <Menu mode="inline" theme="light" onClick={handleClick} inlineIndent={6} selectedKeys={['all']}>
+                <Menu.Item icon={<MdStore size={18} />} key="all">
+                    <Tooltip title="All places" placement="top">
+                        TODOS
+                    </Tooltip>
+                </Menu.Item>
                 {places?.results
                     .filter((place) => place.codigo_cliente && place.name.toLowerCase().includes(search.toLowerCase()))
                     .map((place) => {
