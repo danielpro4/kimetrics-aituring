@@ -29,17 +29,17 @@ const getColumns = ({ onShowDetail }) => {
             ),
         },
         {
+            title: 'Cliente',
+            dataIndex: 'place_name',
+            responsive: ['md'],
+            render: (_, record) => record.place_name,
+        },
+        {
             title: 'Fecha',
             dataIndex: 'date',
             width: 100,
             responsive: ['sm'],
             render: (_, record) => dateInHumanFormat(record.date, 'MMM DD, YYYY'),
-        },
-        {
-            title: 'Cliente',
-            dataIndex: 'place_name',
-            responsive: ['md'],
-            render: (_, record) => record.place_name,
         },
         {
             title: 'Tarea',
@@ -51,7 +51,7 @@ const getColumns = ({ onShowDetail }) => {
             title: 'Usuario',
             dataIndex: 'user_name',
             responsive: ['md'],
-            width: 200,
+            width: 160,
             render: (_, record) => record.user_name,
         },
         {
@@ -68,10 +68,10 @@ const getColumns = ({ onShowDetail }) => {
             },
         },
         {
-            title: 'Correcto',
+            title: 'Bien ejecutado',
             dataIndex: 'valid',
             align: 'center',
-            width: 80,
+            width: 100,
             render: (_, record) => {
                 return record.valid === true ? 'Sí' : 'No'
             },
