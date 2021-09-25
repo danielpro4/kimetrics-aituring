@@ -14,12 +14,7 @@ const SwitchFilter = ({ label, name }) => {
 
 const ButtonFilter = ({ children, ...props }) => {
     return (
-        <Button
-            style={{ width: '140px', margin: '5px auto', display: 'block' }}
-            type="primary"
-            shape="round"
-            {...props}
-        >
+        <Button type="primary" {...props}>
             {children}
         </Button>
     )
@@ -32,6 +27,7 @@ const ImageFilter = ({ onFilter, ...props }) => {
         let values = await form.validateFields()
 
         onFilter(values)
+        props.onClose()
     }
 
     const handleReset = async () => {
@@ -42,6 +38,7 @@ const ImageFilter = ({ onFilter, ...props }) => {
         }
 
         onFilter(values)
+        props.onClose()
     }
 
     return (

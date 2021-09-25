@@ -1,13 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Menu, Tooltip } from 'antd'
 import { useQueryPlaces } from '../../hooks/useQueryPlaces'
 import styles from './styles.module.css'
 import { MdStore } from 'react-icons/md'
+import { Loader } from '@components/Common'
 
 const PlaceList = ({ search, onClick }) => {
     const [selectedKeys, setSelectedKeys] = useState(['all'])
     const { data: places } = useQueryPlaces('places')
+
+    const [showChild, setShowChild] = useState(false)
+
+    // Wait until after client-side hydration to show
+    useEffect(() => {
+        setShowChild(true)
+    }, [])
+
+    if (!showChild) {
+        // You can show some kind of placeholder UI here
+        return <Loader>Cargando...</Loader>
+    }
 
     const handleClick = (event) => {
         setSelectedKeys([event.key])

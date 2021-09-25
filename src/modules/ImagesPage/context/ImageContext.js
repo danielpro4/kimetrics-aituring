@@ -1,5 +1,4 @@
 import { createContext, useContext, useState } from 'react'
-import { DEFAULT_FILTERS } from '../CONSTANTS'
 
 export const ImageContext = createContext({
     v: '0.1',
@@ -11,12 +10,6 @@ export const useImageContext = () => {
 
 export const ImageProvider = ({ children }) => {
     const [filterVisible, setFilterVisible] = useState(false)
-    const [filters, setFilters] = useState({
-        date_ini: DEFAULT_FILTERS.start,
-        date_end: DEFAULT_FILTERS.end,
-        place_id: null,
-    })
-
     const [searchPlace, setSearchPlace] = useState('')
 
     return (
@@ -24,8 +17,6 @@ export const ImageProvider = ({ children }) => {
             value={{
                 filterVisible,
                 setFilterVisible,
-                filters,
-                setFilters,
                 searchPlace,
                 setSearchPlace,
             }}

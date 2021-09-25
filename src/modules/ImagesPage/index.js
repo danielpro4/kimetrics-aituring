@@ -5,7 +5,7 @@ import { FilterOutlined } from '@ant-design/icons'
 import { saveAs } from 'file-saver'
 import dayjs from 'dayjs'
 import moment from 'moment'
-import { Transition, animated, config } from 'react-spring'
+import { animated, config, Transition } from 'react-spring'
 // Global components
 import { s2ab } from '@utils/functions'
 import { useAuthContext } from '@context/AuthContext'
@@ -15,10 +15,12 @@ import { BreadCrumbItem, IframeWrapper, Loader, SearchBox } from '@components/Co
 // Local components
 import ImagesList from './components/ImagesList'
 import ImageFilter from './components/ImageFilter'
+import PlaceList from './components/PlaceList'
 import { useQueryImages } from './hooks/useQueryImages'
 import { useIframeURL } from './hooks/useIframeURL'
 import { useImageContext } from './context/ImageContext'
-import PlaceList from './components/PlaceList'
+import { useFilters } from '@hooks/filters.hook'
+
 import styles from './styles/styles.module.css'
 
 const { RangePicker } = DatePicker
@@ -32,11 +34,12 @@ const showImageDetail = (fullUrl) => {
 }
 
 const ImagesPage = () => {
+    const filters = useFilters(['task_id', 'place_id', 'status', 'processed', 'valid', 'date_ini', 'date_end'])
     const { accessToken: token } = useAuthContext()
     const uiContext = useImageContext()
     const useIURL = useIframeURL()
 
-    const { error, isLoading, data: images } = useQueryImages('images', uiContext.filters)
+    const { error, isLoading, data: images } = useQueryImages('images', filters.current)
 
     const handleShowDetail = async ({ host, task_id }) => {
         try {
@@ -69,44 +72,33 @@ const ImagesPage = () => {
 
     const handleImageFilter = async (values) => {
         const _filters = {
-            ...uiContext.filters,
+            ...filters.current,
             ...values,
         }
+        filters.apply(_filters)
+    }
 
-        uiContext.setFilterVisible(false)
-        uiContext.setFilters(_filters)
+    const onApplyFilters = (newFilters) => {
+        const _filters = {
+            ...filters.current,
+            ...newFilters,
+        }
+        filters.apply(_filters)
     }
 
     const handlePlaceClick = async (placeId) => {
-        const _filters = {
-            ...uiContext.filters,
-            place_id: placeId,
-        }
-
-        uiContext.setFilters(_filters)
+        onApplyFilters({ place_id: placeId })
     }
 
     const handleDateChange = async (date, [start, end]) => {
-        if (!start || !end) {
-            return false
-        }
-
-        if (!dayjs(end).isSameOrAfter(dayjs(start), 'day')) {
-            console.log('La fecha de inicio debe ser mayor', date)
-            return false
-        }
-
         let values = {
             date_ini: dayjs(start).startOf('day').format('YYYY-MM-DD'),
             date_end: dayjs(end).endOf('day').format('YYYY-MM-DD'),
         }
 
-        const _filters = {
-            ...uiContext.filters,
-            ...values,
+        if (values.date_end && values.date_ini) {
+            onApplyFilters(values)
         }
-
-        uiContext.setFilters(_filters)
     }
 
     const handleSearchChange = (event) => {
@@ -138,11 +130,16 @@ const ImagesPage = () => {
                         <Button type="secondary" shape="round" onClick={handleExport}>
                             Exportar
                         </Button>
-                        <RangePicker
-                            showToday
-                            onChange={handleDateChange}
-                            defaultValue={[moment(uiContext.filters.date_ini), moment(uiContext.filters.date_end)]}
-                        />
+                        <Button shape="round">
+                            <RangePicker
+                                style={{ marginTop: '-5px' }}
+                                showToday
+                                bordered={false}
+                                allowClear={false}
+                                onChange={handleDateChange}
+                                defaultValue={[moment(filters.current.date_ini), moment(filters.current.date_end)]}
+                            />
+                        </Button>
                         <Button
                             type="link"
                             icon={<FilterOutlined />}

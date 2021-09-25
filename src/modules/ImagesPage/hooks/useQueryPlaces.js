@@ -1,9 +1,8 @@
-import { useQuery, useQueryClient } from 'react-query'
-import useHttp from '@hooks/useHttp'
+import { useQuery } from 'react-query'
+import useHttp from '@hooks/http.hook'
 
 export const useQueryPlaces = (queryKey, filters = {}) => {
     const { http } = useHttp()
-    const queryClient = useQueryClient()
 
     const fetchData = (params = {}) => {
         const query = Object.keys(params)
@@ -15,7 +14,7 @@ export const useQueryPlaces = (queryKey, filters = {}) => {
         return http.get('/place?' + query)
     }
 
-    const { isLoading, error, data, refetch } = useQuery(queryKey, () => fetchData(filters), {
+    const { isLoading, error, data } = useQuery(queryKey, () => fetchData(filters), {
         retry: 0,
     })
 
@@ -23,9 +22,5 @@ export const useQueryPlaces = (queryKey, filters = {}) => {
         isLoading,
         error,
         data,
-        refetch,
-        onRefetch: (filters) => {
-            queryClient.fetchQuery(queryKey, () => fetchData(filters))
-        },
     }
 }

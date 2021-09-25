@@ -1,4 +1,4 @@
-import useHttp from '@hooks/useHttp'
+import useHttp from '@hooks/http.hook'
 
 export const useIframeURL = () => {
     const { http, token } = useHttp()

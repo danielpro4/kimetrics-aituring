@@ -20,7 +20,6 @@ const useHttp = () => {
             if (accessToken) {
                 request.headers['Authorization'] = `jwt ${accessToken}`
             }
-
             return request
         },
         (error) => Promise.reject(error)

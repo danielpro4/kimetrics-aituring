@@ -1,8 +1,9 @@
 import { useQuery } from 'react-query'
-import useHttp from '@hooks/useHttp'
+import useHttp from '@hooks/http.hook'
+import { stringify } from 'query-string'
 
 /**
-   API Filtros disponibles
+   Filtros disponibles en API
     id=12
     place_id=1
     task_id=20
@@ -17,12 +18,11 @@ export const useQueryImages = (queryKey, filters = {}) => {
     const { http } = useHttp()
 
     const fetchData = (params = {}) => {
-        const query = Object.keys(params)
-            .filter((item) => params[item])
-            .map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
-            .join('&')
-
-        return http.get('/image?page_size=10&' + query)
+        console.log('params::', params)
+        return http.get('/image/?page_size=10', {
+            params: filters,
+            paramsSerializer: (params) => stringify(params, { skipNull: true, arrayFormat: 'none' }),
+        })
     }
 
     const { isLoading, error, data } = useQuery([queryKey, filters], () => fetchData(filters), {
